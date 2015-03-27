@@ -5,7 +5,7 @@
   "dependencies": {
     "crc": "^0.2.0",
     "pomelo": "^1.0.4",
-    "pomelo-status-plugin": "0.0.6",
-    "restify": "^3.0.1"
+    "pomelo-http-plugin": "git://github.com/violet-day/pomelo-http-plugin",
+    "pomelo-status-plugin": "0.0.6"
   }
 }

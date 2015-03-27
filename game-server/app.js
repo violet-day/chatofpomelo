@@ -39,45 +39,19 @@ app.configure('production|development', 'upstream', function () {
   );
 });
 
+
+var httpPlugin = require('pomelo-http-plugin');
+var path = require('path');
+app.configure('development', 'gamehttp', function() {
+  app.loadConfig('httpConfig', path.join(app.getBase(), 'config/http.json'));
+  app.use(httpPlugin, {
+    http: app.get('httpConfig')[app.getServerId()]
+  });
+});
+
 // start app
 app.start();
 
 process.on('uncaughtException', function (err) {
   console.error(' Caught exception: ' + err.stack);
-});
-
-
-var restify = require('restify');
-
-function respond(req, res, next) {
-  res.send('hello ' + req.params.name);
-  next();
-}
-
-var server = restify.createServer();
-
-server.get('/hello/:name', function (req, res) {
-  res.send({message: 'hello ' + req.params.name});
-});
-
-
-server.post('/push', function (req, res) {
-  var service=app.getServersByType('push')[0];
-
-
-  console.log(pomelo.app);
-
-  service.pushRemote.pushByUids(req.params.uids, req.params.route, req.params.msg, function (err, result) {
-    if (err) {
-      console.log(err);
-      res.send(err);
-      return;
-    } else {
-      res.send(result);
-    }
-  })
-});
-server.use(restify.CORS());
-server.listen(8000, function () {
-  console.log('%s listening at %s', server.name, server.url);
 });

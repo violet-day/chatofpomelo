@@ -1,4 +1,4 @@
-var assert=require('assert');
+var assert = require('assert');
 
 module.exports = function (app) {
   return new PushRemote(app);
@@ -7,20 +7,21 @@ module.exports = function (app) {
 var PushRemote = function (app) {
   this.app = app;
   this.channelService = app.get('channelService');
+  this.statusService = this.app.get('statusService');
 };
 
 
-PushRemote.prototype.pushByUids = function (uids,route, message, next) {
-  assert(typeof message === 'object', 'msg must be an object');
-  assert(uids && typeof uids === 'array', 'msg.uid must be an array');
+PushRemote.prototype.pushByUids = function ( uids, route, msg, callback) {
+  assert(typeof msg === 'object', 'msg must be an object');
+  assert(!uids || typeof uids !== 'array', 'uid must be an array');
   assert(route, 'msg.route must be provided');
-  this.statusService.pushByUids(uids, route, message, function (err) {
-    if (!err) {
-      console.log('push to %s,message:%j,route:%s', uids, message, route);
-      next(err);
-      return;
-    }else{
-      next(null, {
+
+  this.statusService.pushByUids(uids, route, msg, function (err) {
+    if (err) {
+      callback(err);
+    } else {
+      console.log('push to %s,message:%j,route:%s', uids, msg, route);
+      callback(null, {
         route: route
       });
     }
