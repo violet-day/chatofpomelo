@@ -13,7 +13,7 @@ var PushRemote = function (app) {
 
 PushRemote.prototype.pushByUids = function ( uids, route, msg, callback) {
   assert(typeof msg === 'object', 'msg must be an object');
-  assert(!uids || typeof uids !== 'array', 'uid must be an array');
+  assert(uids || typeof uids === 'array', 'uid must be an array');
   assert(route, 'msg.route must be provided');
 
   this.statusService.pushByUids(uids, route, msg, function (err) {
