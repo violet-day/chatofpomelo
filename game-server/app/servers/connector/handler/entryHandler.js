@@ -35,7 +35,6 @@ handler.enter = function (msg, session, next) {
   session.pushAll(function (err) {
     if (err) {
       next(err);
-      return;
     } else {
       console.log('uid:%s,sid:%s has connected to %s', uid, session.id, session.frontendId);
       next(null, {

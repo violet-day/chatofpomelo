@@ -20,7 +20,7 @@ PushRemote.prototype.pushByUids = function ( uids, route, msg, callback) {
     if (err) {
       callback(err);
     } else {
-      console.log('push to %s,message:%j,route:%s', uids, msg, route);
+      console.log('push to %s,message:%j,route:%s success', uids, msg, route);
       callback(null, {
         route: route
       });

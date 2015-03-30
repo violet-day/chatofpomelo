@@ -23,6 +23,20 @@ app.use(status, {
   }
 });
 
+app.configure('production|development', 'gate', function(){
+  app.set('connectorConfig',
+    {
+      connector : pomelo.connectors.hybridconnector
+    });
+});
+
+//app.configure('production|development', 'gate', function(){
+//  app.set('connectorConfig',
+//    {
+//      connector : pomelo.connectors.sioconnector
+//    });
+//});
+
 app.configure('production|development', 'upstream', function () {
   app.set('connectorConfig',
     {
